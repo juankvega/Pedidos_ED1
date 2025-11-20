@@ -1,4 +1,5 @@
 from Sistema import Sistema
+from Cola import Cola
 import os
 import sys
 
@@ -137,7 +138,7 @@ def entregar_pedido_menu(sistema):
         numero_pedido = int(input("\nNumero de pedido a entregar: "))
         
         # Buscar el pedido en la cola
-        temp_cola = sistema.Cola()
+        temp_cola = Cola()  # CORRECCIÓN: Crear directamente desde la clase Cola
         pedido_encontrado = None
         
         while sistema.pedidos_activos.size > 0:
@@ -178,7 +179,7 @@ def cancelar_pedido_menu(sistema):
         numero_pedido = int(input("\nNumero de pedido a cancelar: "))
         
         # Buscar el pedido
-        temp_cola = sistema.Cola()
+        temp_cola = Cola()  # CORRECCIÓN: Crear directamente desde la clase Cola
         pedido_encontrado = None
         
         while sistema.pedidos_activos.size > 0:
@@ -348,23 +349,23 @@ def inicializar_datos_prueba(sistema):
     sistema.mapa.conectar_zonas("Sur", "Oeste", 7)
     
     # Registrar clientes
-    sistema.registrar_cliente("C001", "Juan Perez", "Norte")
-    sistema.registrar_cliente("C002", "Maria Garcia", "Sur")
-    sistema.registrar_cliente("C003", "Carlos Lopez", "Este")
+    sistema.registrar_cliente("C001", "Juan Vega", "Norte")
+    sistema.registrar_cliente("C002", "Ana Joely", "Sur")
+    sistema.registrar_cliente("C003", "Nicolas Arends", "Este")
     
     # Registrar restaurantes
-    sistema.registrar_restaurante("R001", "Restaurante El Buen Sabor", "Centro")
-    sistema.registrar_restaurante("R002", "Pizzeria Italiana", "Norte")
-    sistema.registrar_restaurante("R003", "Comidas Rapidas Express", "Sur")
+    sistema.registrar_restaurante("R001", "Restaurante La Sarten", "Centro")
+    sistema.registrar_restaurante("R002", "Restaurante La Sazon de Macondo", "Norte")
+    sistema.registrar_restaurante("R003", "Comidas Rapidas Punto Chevere", "Sur")
     
     # Cargar menús
     for codigo in sistema.restaurantes:
         sistema.restaurantes[codigo].cargar_menu_predeterminado()
     
     # Registrar domiciliarios
-    sistema.registrar_domiciliario("D001", "Pedro Martinez", "Centro")
-    sistema.registrar_domiciliario("D002", "Ana Rodriguez", "Norte")
-    sistema.registrar_domiciliario("D003", "Luis Gomez", "Sur")
+    sistema.registrar_domiciliario("D001", "Javier Hernandez", "Centro")
+    sistema.registrar_domiciliario("D002", "Nairobi Diaz", "Norte")
+    sistema.registrar_domiciliario("D003", "Samuel Deluque", "Sur")
     
     print("Datos de prueba cargados exitosamente")
     pausa()

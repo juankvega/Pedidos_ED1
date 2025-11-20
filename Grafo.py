@@ -1,12 +1,12 @@
 from typing import List, Set
-
-from Cola import Cola, ColaConPrioridad
+from Cola import Cola
+from ColaConPrioridad import ColaConPrioridad
 
 # Vértice o Nodo
 class Vertice:
     def __init__(self, dato):
         self.dato = dato
-        self.siguiente: Vertice = None
+        self.siguiente = None
         self.listaAdyacencia = ListaAdyacencia()
 
     def __str__(self):
@@ -14,22 +14,22 @@ class Vertice:
 
 # Arista o Arco
 class Arista:
-    def __init__(self, destino: Vertice, peso = None):
+    def __init__(self, destino, peso=None):
         self.peso = peso
-        self.siguiente: Arista = None
+        self.siguiente = None
         self.destino = destino
 
 
 # Lista de Adyacencia
 class ListaAdyacencia:
     def __init__(self):
-        self.primera: Arista = None
-        self.ultima: Arista = None
+        self.primera = None
+        self.ultima = None
 
     def esVacia(self):
         return self.primera is None
 
-    def buscarAdyacencia(self, destino: Vertice):
+    def buscarAdyacencia(self, destino):
         temporal = self.primera
         while temporal is not None:
             if str(temporal.destino) == str(destino):
@@ -37,11 +37,11 @@ class ListaAdyacencia:
             temporal = temporal.siguiente
         return False
 
-    def agregar(self, destino: Vertice, peso = None):
+    def agregar(self, destino, peso=None):
         if not self.buscarAdyacencia(destino):
             self.agregarArista(Arista(destino, peso))
 
-    def agregarArista(self, nuevaArista: Arista):
+    def agregarArista(self, nuevaArista):
         if self.esVacia():
             self.primera = nuevaArista
             self.ultima = nuevaArista
@@ -54,19 +54,19 @@ class ListaAdyacencia:
             self.primera = nuevaArista
             return
 
-        if dato > str(self.primera.destino):
+        if dato > str(self.ultima.destino):
             self.ultima.siguiente = nuevaArista
             self.ultima = nuevaArista
             return
 
         temporal = self.primera
-        while temporal.siguiente is not None and dato > str(temporal.destino):
+        while temporal.siguiente is not None and dato > str(temporal.siguiente.destino):
             temporal = temporal.siguiente
 
         nuevaArista.siguiente = temporal.siguiente
         temporal.siguiente = nuevaArista
 
-    def eliminar(self, destino: Vertice):
+    def eliminar(self, destino):
         if self.esVacia():
             return
 
@@ -78,7 +78,7 @@ class ListaAdyacencia:
 
         temporal = self.primera
         
-        while temporal.siguiente is not None and temporal.siguiente.destino.__str__() == str(destino):
+        while temporal.siguiente is not None and str(temporal.siguiente.destino) != str(destino):
             temporal = temporal.siguiente
 
         if temporal.siguiente is not None:
@@ -88,10 +88,10 @@ class ListaAdyacencia:
 
 class Grafo:
     def __init__(self):
-        self.primero: Vertice = None
-        self.ultimo: Vertice = None
+        self.primero = None
+        self.ultimo = None
 
-    def agregarArista(self, origen, destino, peso = None):
+    def agregarArista(self, origen, destino, peso=None):
         verticeOrigen = self.buscarVertice(origen)
         verticeDestino = self.buscarVertice(destino)
         if verticeOrigen is not None and verticeDestino is not None:
@@ -119,7 +119,7 @@ class Grafo:
             self.primero = nuevoVertice
             return
 
-        if nuevoDato > str(self.primero):
+        if nuevoDato > str(self.ultimo):
             self.ultimo.siguiente = nuevoVertice
             self.ultimo = nuevoVertice
             return
@@ -135,7 +135,7 @@ class Grafo:
         if self.esVacio():
             return
 
-        verticeBorrar: Vertice = None
+        verticeBorrar = None
 
         if str(self.primero) == str(dato):
             verticeBorrar = self.primero
@@ -144,7 +144,7 @@ class Grafo:
                 self.ultimo = None
         else:
             temporal = self.primero
-            while temporal.siguiente is not None and temporal.siguiente.__str__() == str(dato):
+            while temporal.siguiente is not None and str(temporal.siguiente) != str(dato):
                 temporal = temporal.siguiente
 
             if temporal.siguiente is not None:
@@ -200,7 +200,7 @@ class Grafo:
         self._recorridoProfundidad(vertice, visitados)
         print()
 
-    def _recorridoProfundidad(self, vertice: Vertice, visitados: Set[Vertice]):
+    def _recorridoProfundidad(self, vertice, visitados):
         print(f"{vertice}", end=' ')
         visitados.add(vertice)
 
@@ -211,6 +211,7 @@ class Grafo:
             aristaActual = aristaActual.siguiente
 
     def Dijkstra(self, origen):
+        """Algoritmo de Dijkstra para encontrar el camino más corto."""
         verticeOrigen = self.buscarVertice(origen)
         if verticeOrigen is None:
             return None
@@ -218,14 +219,17 @@ class Grafo:
         visitados = {}
         distancias = {}
 
+        # Inicializar todas las distancias como infinito
         temporal = self.primero
         while temporal is not None:
             distancias[temporal] = float('inf')
             visitados[temporal] = False
             temporal = temporal.siguiente
 
+        # La distancia del origen a sí mismo es 0
         distancias[verticeOrigen] = 0.0
 
+        # Crear cola con prioridad usando una función lambda
         cola = ColaConPrioridad(lambda v: distancias[v])
         cola.encolar(verticeOrigen)
 
@@ -237,6 +241,7 @@ class Grafo:
 
             visitados[actual] = True
 
+            # Revisar todas las aristas del vértice actual
             aristaActual = actual.listaAdyacencia.primera
             while aristaActual is not None:
                 if not visitados.get(aristaActual.destino, False):
@@ -249,52 +254,15 @@ class Grafo:
         return distancias
 
     def mostrarDistanciasDijkstra(self, origen):
+        """Muestra las distancias calculadas por Dijkstra."""
         distancias = self.Dijkstra(origen)
         if distancias is not None:
             print(f"Distancias desde: {origen}")
             for k, v in distancias.items():
                 print(f"{k.dato}:{v}")
 
-    def bellman_ford(self, origen):
-        vertice_origen = self.__buscar_vertice__(origen)
-        if vertice_origen is None:
-            return None
-
-        # Inicializar distancias
-        distancias = {}
-        actual = self.primer
-        while actual is not None:
-            distancias[actual] = float('inf')
-            actual = actual.siguiente
-        distancias[vertice_origen] = 0.0
-
-        # Relajación de aristas
-        for _ in range(len(distancias) - 1):
-            for vertice in distancias.keys():
-                arista_actual = vertice.lista_adyacencia.primera
-                while arista_actual is not None:
-                    if distancias[vertice] + arista_actual.peso < distancias[arista_actual.destino]:
-                        distancias[arista_actual.destino] = distancias[vertice] + arista_actual.peso
-                    arista_actual = arista_actual.siguiente
-
-        # Verificación de ciclos negativos
-        for vertice in distancias.keys():
-            arista_actual = vertice.lista_adyacencia.primera
-            while arista_actual is not None:
-                if distancias[vertice] + arista_actual.peso < distancias[arista_actual.destino]:
-                    return "El grafo contiene un ciclo negativo."
-                arista_actual = arista_actual.siguiente
-
-        return distancias
-
-    def mostrarDistanciaBellmanFord(self, origen):
-        distancias = self.bellman_ford(origen)
-        if distancias is not None:
-            print(f"Distancias desde: {origen}")
-            for k, v in distancias.items():
-                print(f"{k.dato}:{v}")
-
     def FloydWarshall(self):
+        """Algoritmo de Floyd-Warshall para encontrar todos los caminos más cortos."""
         vertices = []
         actual = self.primero
         while actual is not None:
@@ -304,9 +272,11 @@ class Grafo:
         n = len(vertices)
         distancias = [[float('inf')] * n for _ in range(n)]
 
+        # Inicializar distancias
         for i in range(n):
             distancias[i][i] = 0.0
 
+        # Llenar con las aristas existentes
         for i in range(n):
             aristaActual = vertices[i].listaAdyacencia.primera
             while aristaActual is not None:
@@ -314,6 +284,7 @@ class Grafo:
                 distancias[i][j] = float(aristaActual.peso)
                 aristaActual = aristaActual.siguiente
 
+        # Algoritmo de Floyd-Warshall
         for k in range(n):
             for i in range(n):
                 for j in range(n):
@@ -325,8 +296,9 @@ class Grafo:
         return distancias
 
     def mostrarDistanciasFloydWarshall(self):
+        """Muestra la matriz de distancias de Floyd-Warshall."""
         distancias = self.FloydWarshall()
-        vertices: List[Vertice] = []
+        vertices = []
         temp = self.primero
         while temp is not None:
             vertices.append(temp)

@@ -1,5 +1,4 @@
-from Grafos.Grafo import Grafo, Vertice
-from Grafos.ColaConPrioridad import ColaConPrioridad
+from Grafo import Grafo, Vertice
 
 class Zona:
     """
@@ -45,10 +44,10 @@ class Mapa:
             zona = Zona(nombre_zona)
             self.zonas[nombre_zona] = zona
             self.grafo.agregarVertice(nombre_zona)
-            print(f"✓ Zona '{nombre_zona}' agregada al mapa")
+            print(f"Zona '{nombre_zona}' agregada al mapa")
             return True
         else:
-            print(f"✗ La zona '{nombre_zona}' ya existe")
+            print(f"La zona '{nombre_zona}' ya existe")
             return False
     
     def conectar_zonas(self, zona_origen, zona_destino, distancia):
@@ -60,10 +59,10 @@ class Mapa:
             # Conexión bidireccional (grafo no dirigido)
             self.grafo.agregarArista(zona_origen, zona_destino, distancia)
             self.grafo.agregarArista(zona_destino, zona_origen, distancia)
-            print(f"✓ Zonas '{zona_origen}' y '{zona_destino}' conectadas (distancia: {distancia})")
+            print(f"Zonas '{zona_origen}' y '{zona_destino}' conectadas (distancia: {distancia})")
             return True
         else:
-            print(f"✗ Una o ambas zonas no existen en el mapa")
+            print(f"Una o ambas zonas no existen en el mapa")
             return False
     
     def obtener_zona(self, nombre_zona):
@@ -72,17 +71,16 @@ class Mapa:
     
     def calcular_distancias_desde(self, zona_origen):
         """
-        Calcula las distancias más cortas desde una zona origen a todas las demás
-        usando el algoritmo de Dijkstra.
+        Calcula las distancias más cortas desde una zona origen a todas las demas
         Retorna un diccionario con las distancias.
         """
         if zona_origen not in self.zonas:
-            print(f"✗ La zona '{zona_origen}' no existe")
+            print(f"La zona '{zona_origen}' no existe")
             return None
         
         distancias_vertices = self.grafo.Dijkstra(zona_origen)
         
-        # Convertir el resultado de vértices a nombres de zonas
+        # Convertir el resultado de vertices a nombres de zonas
         distancias = {}
         for vertice, distancia in distancias_vertices.items():
             distancias[vertice.dato] = distancia
@@ -93,7 +91,6 @@ class Mapa:
         """
         Encuentra la zona más cercana de una lista de zonas candidatas
         desde una zona origen.
-        Retorna una tupla (zona_mas_cercana, distancia).
         """
         distancias = self.calcular_distancias_desde(zona_origen)
         

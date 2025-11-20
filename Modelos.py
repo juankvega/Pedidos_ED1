@@ -3,7 +3,7 @@ from enum import Enum
 
 class EstadoPedido(Enum):
     """Estados posibles de un pedido."""
-    PENDIENTE = "PENDIENTE"      # Recien creado
+    PENDIENTE = "PENDIENTE"      # Recién creado
     ASIGNADO = "ASIGNADO"        # Restaurante y domiciliario asignados
     ENTREGADO = "ENTREGADO"      # Ya entregado al cliente
     CANCELADO = "CANCELADO"      # Cancelado por el cliente
@@ -20,18 +20,18 @@ class Cliente:
 
 
 class CategoriaMenu:
-    """Representa una categoria del menu con sus platos."""
+    """Representa una categoría del menú con sus platos."""
     def __init__(self, nombre):
         self.nombre = nombre
         self.platos = []  # Lista de platos en esta categoría
     
     def agregar_plato(self, plato):
-        """Agrega un plato a esta categoria."""
+        """Agrega un plato a esta categoría."""
         if plato not in self.platos:
             self.platos.append(plato)
     
     def tiene_plato(self, plato):
-        """Verifica si la categoria tiene un plato especifico."""
+        """Verifica si la categoría tiene un plato específico."""
         return plato in self.platos
 
 
@@ -45,29 +45,29 @@ class Restaurante:
         self._inicializar_categorias()
     
     def _inicializar_categorias(self):
-        """Inicializa las categorias del menu."""
+        """Inicializa las categorías del menú."""
         self.menu["Bebidas"] = CategoriaMenu("Bebidas")
         self.menu["Platos"] = CategoriaMenu("Platos")
         self.menu["Platos Fuertes"] = CategoriaMenu("Platos Fuertes")
     
     def agregar_plato_menu(self, categoria, plato):
-        """Agrega un plato al menu en una categoria especifica."""
+        """Agrega un plato al menú en una categoría específica."""
         if categoria not in self.menu:
             self.menu[categoria] = CategoriaMenu(categoria)
         
         self.menu[categoria].agregar_plato(plato)
     
     def tiene_plato(self, plato):
-        """Verifica si el restaurante tiene un plato especifico en cualquier categoria."""
+        """Verifica si el restaurante tiene un plato específico en cualquier categoría."""
         for categoria in self.menu.values():
             if categoria.tiene_plato(plato):
                 return True
         return False
     
     def mostrar_menu(self):
-        """Muestra el menu completo del restaurante organizado por categorias."""
+        """Muestra el menú completo del restaurante organizado por categorías."""
         if not self.menu:
-            print(" El menu esta vacio")
+            print("  El menú está vacío")
             return
         
         for nombre_categoria, categoria in self.menu.items():
@@ -77,11 +77,12 @@ class Restaurante:
                     print(f"    {i}. {plato}")
     
     def cargar_menu_predeterminado(self):
-        """Carga un menu predeterminado con platos tipicos."""
+        """Carga un menú predeterminado con platos típicos."""
         # Bebidas
         bebidas = [
             "Pony Malta",
             "Postobon Manzana",
+            "Pepsi",
             "Coca Cola",
             "Coca Cola Zero",
             "Sprite",
@@ -98,7 +99,7 @@ class Restaurante:
         platos = [
             "Pechuga a la Plancha",
             "Pasta Carbonara",
-            "Pasta Boloñesa",
+            "Pasta Bolonesa",
             "Pasta Alfredo",
             "Sopa de Pollo",
             "Sopa de Costilla",
@@ -118,6 +119,7 @@ class Restaurante:
             "Pescado Frito",
             "Mojarra Frita",
             "Churrasco",
+            "Sobrebarriga",
             "Cazuela de Mariscos",
             "Arroz con Camarones",
             "Lomo de Cerdo",

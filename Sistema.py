@@ -18,7 +18,7 @@ class Sistema:
         self.historial_pedidos = {}  # {codigo_cliente: [pedidos]}
         self.contador_pedidos = 0
     
-    # ===== REGISTRO DE ENTIDADES =====
+    # REGISTRO DE ENTIDADES
     
     def registrar_cliente(self, codigo, nombre_completo, zona_ubicacion):
         """Registra un nuevo cliente en el sistema."""
@@ -80,7 +80,7 @@ class Sistema:
         print(f"Domiciliario '{nombre}' registrado en zona '{ubicacion_actual}'")
         return True
     
-    # ===== GESTIÓN DE MENÚS =====
+    # GESTION DE MENUS
     
     def agregar_plato_restaurante(self, codigo_restaurante, categoria, plato):
         """Agrega un plato al menu de un restaurante en una categoria especifica."""
@@ -93,7 +93,7 @@ class Sistema:
         print(f"Plato '{plato}' agregado a categoria '{categoria}' en {restaurante.nombre}")
         return True
     
-    # ===== BÚSQUEDA Y ASIGNACIÓN =====
+    # BUSQUEDA Y ASIGNACIÓN 
     
     def buscar_restaurante_con_producto(self, producto, zona_cliente):
         """
@@ -150,7 +150,7 @@ class Sistema:
         
         return domiciliario_mas_cercano, distancia_minima
     
-    # ===== GESTIÓN DE PEDIDOS =====
+    # GESTIÓN DE PEDIDOS 
     
     def crear_pedido(self, codigo_cliente, producto):
         """
@@ -319,7 +319,7 @@ class Sistema:
         
         return True
     
-    # ===== CONSULTAS =====
+    # CONSULTAS
     
     def consultar_cliente(self, codigo_cliente):
         """Muestra informacion completa del cliente."""

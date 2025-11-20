@@ -1,10 +1,14 @@
 class ColaConPrioridad:
     def __init__(self, key_func=None):
+        """
+        Inicializa la cola con prioridad.
+        key_func: funcion que extrae la prioridad de un elemento
+        """
         self.items = []
         self.key_func = key_func if key_func else lambda x: x[0] if isinstance(x, tuple) else x
 
     def encolar(self, item):
-        """Encola un elemento manteniendo el orden de prioridad."""
+        """Encola un elemento manteniendo el orden de prioridad (menor valor = mayor prioridad)."""
         if self.estaVacia():
             self.items.append(item)
         else:
@@ -33,8 +37,12 @@ class ColaConPrioridad:
             print(self.items)
 
     def estaVacia(self):
-        """Verifica si la cola esta vacia."""
+        """Verifica si la cola está vacía."""
         return len(self.items) == 0
+    
+    def esta_vacia(self):
+        """Alias para estaVacia (compatibilidad)."""
+        return self.estaVacia()
 
     def ver_frente(self):
         """Retorna el elemento al frente sin eliminarlo."""
