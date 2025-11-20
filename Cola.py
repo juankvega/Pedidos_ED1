@@ -1,13 +1,14 @@
 class Nodo():
     def __init__(self, dato):
         self.dato = dato
-        self.siguiente:Nodo = None
+        self.siguiente = None
 
 class Cola():
     def __init__(self):
-        self.head:Nodo = None
-        self.tail:Nodo = None
+        self.head = None
+        self.tail = None
         self.size = 0
+    
     def enqueue(self, dato):
         nuevo_nodo = Nodo(dato)
         if self.head is None:
@@ -16,6 +17,7 @@ class Cola():
             self.tail.siguiente = nuevo_nodo
             self.tail = nuevo_nodo
         self.size += 1
+    
     def dequeue(self):
         if self.head is None:
             return None
@@ -25,9 +27,14 @@ class Cola():
             self.tail = None
         self.size -= 1
         return dato
+    
     def show(self):
         tmp = self.head
         while tmp is not None:
             print(tmp.dato, end=" -> ")
             tmp = tmp.siguiente
         print("None", end="\n")
+    
+    def getSize(self):
+        """Retorna el tamaño actual de la cola."""
+        return self.size
